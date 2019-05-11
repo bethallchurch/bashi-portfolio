@@ -2,9 +2,8 @@
   'use strict'
 
   var canvas = document.querySelector('#webgl')
-  var scroll = 0.0
-  var velocity = 0.0
-  var lastScroll = 0.0
+
+  var scroll = 0.0, velocity = 0.0, lastScroll = 0.0
 
   var regl = createREGL({
     canvas: canvas,
@@ -14,12 +13,9 @@
   })
 
   var img = new Image()
-  img.src = 'img/background.png'
+  img.src = 'img/background.jpg'
   img.onload = function () {
-    setTimeout(function () {
-      document.body.classList.remove('loading')
-    }, 1000)
-
+    setTimeout(function () { document.body.classList.remove('loading') }, 1000)
     var draw = regl({
       frag: document.querySelector('#fragmentShader').textContent,
       vert: 'attribute vec2 position; void main() { gl_Position = vec4(3.0 * position, 0.0, 1.0); }',
@@ -39,14 +35,8 @@
       var aspect = canvas.scrollWidth / canvas.scrollHeight
       canvas.width = 1024 * aspect
       canvas.height = 1024
-
       scroll = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)
-
-      velocity = 0
-      lastScroll = scroll
-
       regl.clear({ color: [0, 0, 0, 0] })
-
       draw({
         globaltime: ctx.time,
         resolution: [ctx.viewportWidth, ctx.viewportHeight],
